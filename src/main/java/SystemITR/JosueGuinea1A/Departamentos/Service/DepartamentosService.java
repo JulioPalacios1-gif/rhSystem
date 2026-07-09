@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -65,5 +66,11 @@ public class DepartamentosService {
         return entidades.stream()
                 .map(this::convertirADTO)
                 .collect(Collectors.toList());
+    }
+
+    public DepartamentosDTO buscarDepartamento(Long id) {
+        Optional<DepartamentosEntity> entidadOpcional = repo.findById(id);
+        //Validar si el id existe en caso fuera cierto convertimos el dato a DTO, de lo contrario retornamos un null
+        return entidadOpcional.map(this::convertirADTO).orElse(null);
     }
 }
